@@ -46,4 +46,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:sT',
+        'updated_at' => 'datetime:Y-m-d H:i:sT',
+    ];
 }

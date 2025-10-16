@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\UrlShortener;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 class UrlShortnerController extends Controller
@@ -31,12 +32,57 @@ class UrlShortnerController extends Controller
             $user=Auth::user()->id;
             $urlshort = new UrlShortener();
             $urlshort->original_url=$request->original_url;
-            $urlshort->code=$request->code;
+            if(isset($request->custom_code)){
+                $urlshort->code=$request->custom_code;
+            }else{
+                $chaine="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_1234567890";
+                $coderand='';
+                for($i=0;$i<10;$i++){
+                    $coderand.=substr($chaine,random_int(0,strlen($chaine)-1),1);
+                }
+                $urlshort->code=$coderand;
+            }
             $urlshort->user_id=$user;
-            $urlshort->code=0;
-      }else{
+            $urlshort->clicks=0;
+            $urlshort->save();
+           
+            return response()->json(['id'=>$urlshort->id, "user_id"=>$urlshort->user_id,'original_url'=>$urlshort->original_url,'code'=>$urlshort->code,
+            'clicks'=>$urlshort->clicks,'created_at'=>$urlshort->created_at],201);
+        }else{
             return response()->json(null,400);
-      }
+        }
         
+    }
+
+    public function getlink(){
+        return response()->json(UrlShortener::where('user_id',Auth::user()->id)->get(),200) ;
+    }
+
+    public function deletelink($id){
+        $urlshort= UrlShortener::find($id);
+        
+        if(isset($urlshort)){
+            if($urlshort->user_id==Auth::user()->id){
+                $urlshort->delete();
+                return response()->json(["message"=>"Link deleted successfully" ],200);
+            }
+        }else{
+            return response()->json(null,404);
+        }
+       
+    }
+
+    public function checkandredirect($code){
+       $urlshort= UrlShortener::where('code',$code)->first();
+       if(isset($urlshort)){
+            $urlshort->clicks=$urlshort->clicks+1;
+            $urlshort->save();
+            return redirect()->away($urlshort->original_url,302);
+       }else{
+            return response()->json(null,404);
+        }
+       
+      
+       
     }
 }

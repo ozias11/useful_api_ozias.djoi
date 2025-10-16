@@ -28,7 +28,11 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::middleware(CheckModuleActive::class.':1')->group(function(){
         Route::controller(UrlShortnerController::class)->group(function(){
             Route::post('/shorten','creatshortlink');
+            Route::get('/links','getlink');
+            Route::get('/s/{code}','checkandredirect');
+            Route::delete('/links/{id}','deletelink');
+
         });
+       
     });
-    
 });

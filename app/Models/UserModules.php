@@ -14,7 +14,10 @@ class UserModules extends Model
         'active',
         
     ];
-
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:sT',
+        'updated_at' => 'datetime:Y-m-d H:i:sT',
+    ];
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class);

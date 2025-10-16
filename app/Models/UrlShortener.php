@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class UrlShortener extends Model
 {
     //
+    protected $table = 'url_shortener';
+    
     protected $fillable = [
         'id',
         'user_id',
@@ -14,6 +16,13 @@ class UrlShortener extends Model
         'clicks',
         'code',
         'created_at'
-        
+    ];
+
+    protected $hidden = [
+        'updated_at',
+    ];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:sT',
+        'updated_at' => 'datetime:Y-m-d H:i:sT',
     ];
 }
