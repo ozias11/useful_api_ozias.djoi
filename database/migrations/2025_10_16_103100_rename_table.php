@@ -12,10 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::table('modules',function (Blueprint $table) {
-            $table->dropColumn('created_at');
-            $table->dropColumn('updated_at');
-        });
+        schema::rename('user__modules','user_modules');
     }
 
     /**

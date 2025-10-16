@@ -27,7 +27,7 @@ class UserController extends Controller
 
     public function connexion(Request $request){
         $credential = $request->validate([
-            'email'=>['required','string'],
+            'email'=>['required','email'],
             'password'=>['required','string']
         ]);
         if(Auth::attempt($credential)){
