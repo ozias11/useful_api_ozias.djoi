@@ -42,9 +42,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::middleware(CheckModuleActive::class.':2')->group(function(){
         Route::controller(WalletController::class)->group(function(){
             Route::get('/wallet','index');
-            Route::get('/wallet/transfer','getlink');
-            Route::get('/wallet/topup','checkandredirect');
-            Route::delete('/wallet/transactions','deletelink');
+            Route::post('/wallet/transfer','transfert');
+            Route::post('/wallet/topup','checkandredirect');
+            Route::get('/wallet/transactions','deletelink');
 
         });
        

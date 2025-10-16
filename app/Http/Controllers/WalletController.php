@@ -20,4 +20,16 @@ class WalletController extends Controller
         }
         return response()->json(['user_id'=>$wall->user_id,'balance'=>number_format($wall->balance,2)],200);
     }
+
+    public function transfert(Request $request){
+        $canwrite=true;
+        $request->validate([
+            'receiver_id'=>['required',"int"],
+            'amount'=>['required','string']
+        ]);
+        if($request->amount<0){
+            $canwrite=false;
+        }
+        return response()->json(['message'=>'everything is pok']);
+    }
 }
