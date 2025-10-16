@@ -11,7 +11,12 @@ class ModulesController extends Controller
 {
     //
     public function index(){
-        return response()->json(Modules::all(),200);
+        $module=[];
+        $usermod =UserModules::where('user_id',Auth::user()->id)->where('active',true)->with('user')->with('module')->get();
+        foreach ($usermod as  $value) {
+           $module[]=$value->module;
+        }
+        return response()->json($module,200);
     }
 
     public function activatemodule($id){
