@@ -22,7 +22,7 @@ class UrlShortener extends Model
         'updated_at',
     ];
     protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:sT',
-        'updated_at' => 'datetime:Y-m-d H:i:sT',
+        'created_at' => 'datetime:Y-m-d\TH:i:s\Z',
+        'updated_at' => 'datetime:Y-m-d\TH:i:s\Z',
     ];
 }

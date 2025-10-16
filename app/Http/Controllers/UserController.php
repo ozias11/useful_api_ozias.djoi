@@ -18,7 +18,7 @@ class UserController extends Controller
         
        $newuser= User::create($request->all());
        
-        return response()->json(['id'=>$newuser->id,'name'=>$newuser->name,'email'=>$newuser->email,'created_at'=>substr($newuser->created_at,0,19)."Z"],201);
+        return response()->json(['id'=>$newuser->id,'name'=>$newuser->name,'email'=>$newuser->email,'created_at'=>date_format($newuser->created_at,'Y-m-d\TH:i:s\Z')],201);
     }
 
     public function connexion(Request $request){

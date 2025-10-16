@@ -15,11 +15,6 @@ class Modules extends Model
         
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:sT',
-        'updated_at' => 'datetime:Y-m-d H:i:sT',
-    ];
-
     public function usermod():HasMany
     {
         return $this->hasMany(UserModules::class,'module_id');

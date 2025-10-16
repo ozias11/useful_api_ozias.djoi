@@ -33,7 +33,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    
     /**
      * Get the attributes that should be cast.
      *
@@ -44,10 +44,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'created_at' => 'datetime:Y-m-d\TH:i:s\Z',
+            'updated_at' => 'datetime:Y-m-d\TH:i:s\Z',
         ];
     }
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:sT',
-        'updated_at' => 'datetime:Y-m-d H:i:sT',
-    ];
 }

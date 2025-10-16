@@ -47,7 +47,7 @@ class UrlShortnerController extends Controller
             $urlshort->save();
            
             return response()->json(['id'=>$urlshort->id, "user_id"=>$urlshort->user_id,'original_url'=>$urlshort->original_url,'code'=>$urlshort->code,
-            'clicks'=>$urlshort->clicks,'created_at'=>$urlshort->created_at],201);
+            'clicks'=>$urlshort->clicks,'created_at'=>date_format($urlshort->created_at,'Y-m-d\TH:i:s\Z')],201);
         }else{
             return response()->json(null,400);
         }

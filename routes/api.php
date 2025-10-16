@@ -3,6 +3,7 @@
 use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\UrlShortnerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WalletController;
 use App\Http\Middleware\CheckModuleActive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,19 @@ Route::middleware('auth:sanctum')->group(function(){
             Route::get('/links','getlink');
             Route::get('/s/{code}','checkandredirect');
             Route::delete('/links/{id}','deletelink');
+
+        });
+       
+    });
+});
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::middleware(CheckModuleActive::class.':2')->group(function(){
+        Route::controller(WalletController::class)->group(function(){
+            Route::get('/wallet','index');
+            Route::get('/wallet/transfer','getlink');
+            Route::get('/wallet/topup','checkandredirect');
+            Route::delete('/wallet/transactions','deletelink');
 
         });
        
