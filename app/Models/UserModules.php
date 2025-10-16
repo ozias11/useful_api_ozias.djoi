@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserModules extends Model
 {
@@ -13,4 +14,14 @@ class UserModules extends Model
         'active',
         
     ];
+
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function module():BelongsTo
+    {
+        return $this->belongsTo(Modules::class);
+    }
 }
