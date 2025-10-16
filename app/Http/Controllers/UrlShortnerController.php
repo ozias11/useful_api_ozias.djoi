@@ -81,8 +81,5 @@ class UrlShortnerController extends Controller
        }else{
             return response()->json(null,404);
         }
-       
-      
-       
     }
 }
