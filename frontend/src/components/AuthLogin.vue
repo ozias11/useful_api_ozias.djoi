@@ -1,7 +1,8 @@
 <script setup>
 import { useAuthStore } from '@/stores/authstore';
 import { reactive } from 'vue';
-
+import { useRouter } from 'vue-router';
+    const router=useRouter();
     const authStore =useAuthStore()
     const formdata = reactive({
         email:'',
@@ -19,7 +20,7 @@ import { reactive } from 'vue';
             })
 
             if(typeof localStorage.getItem('token')=='string'){
-                alert('cest bon')
+                router.push("/")
             }
             document.querySelector('button').removeAttribute('disabled')
             document.querySelector('button').innerHTML='Login'

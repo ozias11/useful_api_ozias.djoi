@@ -19,6 +19,10 @@ class ModulesController extends Controller
         return response()->json($module,200);
     }
 
+    public function indexall(){
+        return response()->json(Modules::all(),200);
+    }
+
     public function activatemodule($id){
         $mod=Modules::find($id);
         $user=Auth::user()->id;

@@ -1,10 +1,16 @@
 <script setup>
+import AllModule from '@/components/AllModule.vue';
+import HearderVue from '@/components/HearderVue.vue';
+
 
 </script>
 
 <template>
+  <header>
+    <HearderVue/>
+  </header>
+ 
   <main>
-    
-    <div class="btn btn-primary">hello</div>
+    <AllModule/>   
   </main>
 </template>

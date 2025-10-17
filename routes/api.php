@@ -20,6 +20,7 @@ Route::controller(UserController::class)->group(function(){
 Route::middleware('auth:sanctum')->group(function(){
     Route::controller(ModulesController::class)->group(function(){
         Route::get('/modules','index');
+        Route::get('/modules/all','indexall');
         Route::post('/modules/{id}/activate','activatemodule');
         Route::post('/modules/{id}/deactivate','desactivemodule');
     }); 
