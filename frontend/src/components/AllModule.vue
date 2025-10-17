@@ -11,7 +11,7 @@ import { onMounted, reactive, ref} from 'vue';
         code:''
      })
     const creaturl= async function(){
-        document.querySelector('button').innerHTML='<i class="bi bi-arrow-repeat"></i>'
+        document.querySelector('.chargement').innerHTML='<i class="bi bi-arrow-repeat"></i>'
                     document.querySelector('.chargement').setAttribute('disabled','')
                     await urlStore.CreacteShortlink({
                         original_url: formdata.url,
@@ -19,8 +19,8 @@ import { onMounted, reactive, ref} from 'vue';
                     })
 
                     
-            document.querySelector('button').removeAttribute('disabled')
-            document.querySelector('button').innerHTML='create'
+            document.querySelector('.chargement').removeAttribute('disabled')
+            document.querySelector('.chargement').innerHTML='create'
             formdata.url=''
             formdata.code=''
     }
