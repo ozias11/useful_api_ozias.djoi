@@ -11,7 +11,10 @@ import { onMounted, reactive, ref} from 'vue';
         code:''
      })
     const creaturl= async function(){
-        document.querySelector('.chargement').innerHTML='<i class="bi bi-arrow-repeat"></i>'
+        if(formdata.url.trim()==''){
+            alert('entrer une url')
+        }else{
+            document.querySelector('.chargement').innerHTML='<i class="bi bi-arrow-repeat"></i>'
                     document.querySelector('.chargement').setAttribute('disabled','')
                     await urlStore.CreacteShortlink({
                         original_url: formdata.url,
@@ -23,6 +26,7 @@ import { onMounted, reactive, ref} from 'vue';
             document.querySelector('.chargement').innerHTML='create'
             formdata.url=''
             formdata.code=''
+            }
     }
 
     const activatemodule =async function(id){
