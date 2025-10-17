@@ -58,7 +58,7 @@ import { onMounted, reactive, ref} from 'vue';
             
             <form v-if="showform" class="d-flex justify-content-center mt-3" @submit.prevent="creaturl">
                 <div  class=""> 
-                    <h4 class="mb-3">Using module {{ title }} <i @click="showform=false; title='yes'" class="bi bi-x-circle"></i></h4>
+                    <h4 class="mb-3">Using module {{ title }}<button> <i @click="showform=false; title='yes'" class="bi bi-x-circle "></i></button></h4>
                     <div>
                         <div class="mb-3">
                             <label  class="form-label">url</label>
