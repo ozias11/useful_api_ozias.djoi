@@ -1,27 +1,43 @@
 <script setup>
 import { useModuleStore } from '@/stores/moduleStore';
-import { onMounted, /*reactive*/ } from 'vue';
-
+import { useUrlStore } from '@/stores/urlshort';
+import { onMounted, reactive, ref} from 'vue';
+    const showform=ref(false)
+    const title =ref('')
+    const urlStore =useUrlStore()
     const moduelStore = useModuleStore()
-    //  const formdata = reactive({
-    //     email:'',
-    //     password:''
-    // })
-    // const connexion= async function(){
-    // }
+     const formdata = reactive({
+       url:'',
+        code:''
+     })
+    const creaturl= async function(){
+        document.querySelector('button').innerHTML='<i class="bi bi-arrow-repeat"></i>'
+                    document.querySelector('.chargement').setAttribute('disabled','')
+                    await urlStore.CreacteShortlink({
+                        original_url: formdata.url,
+                        custom_code: formdata.code
+                    })
+
+                    
+            document.querySelector('button').removeAttribute('disabled')
+            document.querySelector('button').innerHTML='create'
+            formdata.url=''
+            formdata.code=''
+    }
 
     const activatemodule =async function(id){
         await moduelStore.activatemodule(id) 
     }
     const deactivatemodule =async function (id) {
         if(confirm('are you you want de deative this module')){
-             await moduelStore.desactivatemodule(id) 
+            await moduelStore.desactivatemodule(id) 
         }   
        
     }
     onMounted(async ()=>{
         await moduelStore.getAllmodule();
         await moduelStore.getActiveModule();
+        await urlStore.getAllUrl();
     })
 </script>
 <template>
@@ -35,36 +51,49 @@ import { onMounted, /*reactive*/ } from 'vue';
             </div>
         </div>
         <div class="col-md-6">
-            <!--
-            <form class="d-flex justify-content-center mt-3" @submit.prevent="connexion">
+            
+            <form v-if="showform" class="d-flex justify-content-center mt-3" @submit.prevent="creaturl">
                 <div  class=""> 
-                    <h4 class="mb-3">Using module</h4>
+                    <h4 class="mb-3">Using module {{ title }} <i @click="showform=false; title='yes'" class="bi bi-x-circle"></i></h4>
                     <div>
                         <div class="mb-3">
-                            <label  class="form-label">Email address</label>
-                            <input v-model="formdata.email" type="email" class="form-control"  required placeholder="name@example.com">
+                            <label  class="form-label">url</label>
+                            <input v-model="formdata.url" type="text" class="form-control"  required placeholder="https://slas.com">
                         </div>
                 
                         <div class="mb-3">
-                            <label  class="form-label">Password</label>
-                            <input v-model="formdata.password" type="password" class="form-control" required >
+                            <label  class="form-label">Code</label>
+                            <input v-model="formdata.code" type="text" class="form-control"  >
                         </div>
-                        <div class="">
-                            <button type="submit" class="mb-3 btn btn-primary">Login</button>
-                            <p> you don't have account register here <router-link to="/register">register</router-link></p>
-                        </div>
+                       
+                            <button type="submit" class="chargement mb-3 btn btn-primary">create</button>
+                        
                         
                     </div>
                 
                 </div>
+                
             </form>
-            -->
+            <div v-if="title=='URL Shortener'" class="d-flex justify-content-center mt-3">
+                <div class="">
+                    <h5>list of url</h5>
+                        
+                    <div v-for="urllin in urlStore.allUrlsCode" :key="urllin.id">
+                        <h6>code: {{urllin.code}}</h6> 
+                        <h6>cliks: {{urllin.clicks}}</h6> 
+                        <h6>url: {{urllin.original_url}}</h6> 
+                    </div>
+                </div>
+            </div>
+                
         </div>
         <div class="d-flex  justify-content-end row col-md-3">
             <div >
                 <h2> Module activated</h2>
                 <div v-for="moduleacti in moduelStore.moduleactivate" :key="moduleacti.id" class="row d-flex mb-3">
-                    <h5 class="col-md-7">{{moduleacti.name}}</h5>
+                    <h5 class="col-md-5">{{moduleacti.name}}</h5>
+                    <button @click="showform=true;title=moduleacti.name" style="margin-right: 2px;" class="btn btn-success col-md-3"> use it </button>
+              
                     <button @click="deactivatemodule(moduleacti.id)" class="btn btn-danger col-md-3"> deactivate </button>
                 </div>
             </div>
