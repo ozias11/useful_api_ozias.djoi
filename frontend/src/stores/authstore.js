@@ -28,6 +28,25 @@ export const useAuthStore = defineStore('authstore',{
            }
             
            
-        }
+        },
+        async register(credential){
+           try {
+                const repon= await axios.post(this.url+'/register',credential).catch(function (error){
+                    if(error.response.status=='422'){
+                        alert('email is already use')
+                       localStorage.removeItem('state')
+                    }
+                });
+                if(repon){
+                  localStorage.setItem('state','success')
+                }
+                
+           }catch (error ) {
+                console.log(error)
+           }
+            
+           
+        },
+
     }
 })

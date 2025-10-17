@@ -12,6 +12,7 @@ import { reactive } from 'vue';
             alert('all field are required')
         }else{
             document.querySelector('button').innerHTML='<i class="bi bi-arrow-repeat"></i>'
+            document.querySelector('button').setAttribute('disabled','')
             await authStore.connexion({
                 email:formdata.email,
                 password:formdata.password
@@ -20,6 +21,7 @@ import { reactive } from 'vue';
             if(typeof localStorage.getItem('token')=='string'){
                 alert('cest bon')
             }
+            document.querySelector('button').removeAttribute('disabled')
             document.querySelector('button').innerHTML='Login'
         }
     }
@@ -29,7 +31,7 @@ import { reactive } from 'vue';
 <template>
     <form class="d-flex justify-content-center mt-3" @submit.prevent="connexion">
         <div  class="row col-md-3"> 
-            <h4>Sign in</h4>
+            <h4 class="mb-3">Sign in</h4>
             <div>
                 <div class="mb-3">
                     <label  class="form-label">Email address</label>
@@ -40,9 +42,9 @@ import { reactive } from 'vue';
                     <label  class="form-label">Password</label>
                     <input v-model="formdata.password" type="password" class="form-control" required >
                 </div>
-                <div class="mb-3 ">
-                    <button type="submit" class="chargement btn btn-primary">Login</button>
-                    <p> you don't have account register here <a href="#">register</a></p>
+                <div class="">
+                    <button type="submit" class="mb-3 btn btn-primary">Login</button>
+                    <p> you don't have account register here <router-link to="/register">register</router-link></p>
                 </div>
                 
             </div>
