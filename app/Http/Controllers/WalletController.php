@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\UserModules;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +25,7 @@ class WalletController extends Controller
 
     public function transfert(Request $request){
         $canwrite=true;
+        $user=Auth::user()->id;
         $request->validate([
             'receiver_id'=>['required',"int"],
             'amount'=>['required','string']
@@ -30,6 +33,20 @@ class WalletController extends Controller
         if($request->amount<0){
             $canwrite=false;
         }
-        return response()->json(['message'=>'everything is pok']);
+        if(preg_grep('/^[\d\.\,]*$/',$request->amount)){
+            return response()->json(null,400);
+        }
+        $receveuser = User::find($request->receiver_id)->first();
+        if(isset($receveuser) && $receveuser->id != $user){
+            $check= UserModules::where('user_id',$receveuser->id)->where('module_id',2)->where('active',true)->first();
+            if(isset($check)){
+                
+            }else{
+                return response()->json(null,401);
+            }
+        }else{
+            return response()->json(null,401);
+        }
+        return response()->json(['message'=>'everything is ok']);
     }
 }
